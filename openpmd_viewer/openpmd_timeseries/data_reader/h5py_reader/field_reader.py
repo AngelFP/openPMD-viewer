@@ -209,7 +209,7 @@ def read_field_circ( filename, iteration, field, coord,
         modes = np.array( modes, dtype='int' )
         nmodes = len(modes)
 
-        # If necessary, reduce resolution for 3D reconstruction
+        # If necessary, reduce resolution of 3D reconstruction
         if max_resolution_3d is not None:
             max_res_lon, max_res_transv = max_resolution_3d
             nz = Fcirc.shape[2]
