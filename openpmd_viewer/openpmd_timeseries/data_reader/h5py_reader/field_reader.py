@@ -123,7 +123,7 @@ def read_field_circ( filename, iteration, field, coord,
                      max_resolution_3d=None ):
     """
     Extract a given field from an HDF5 file in the openPMD format,
-    when the geometry is thetaMode
+    when the geometry is thetaMode or cylindrical
 
     Parameters
     ----------

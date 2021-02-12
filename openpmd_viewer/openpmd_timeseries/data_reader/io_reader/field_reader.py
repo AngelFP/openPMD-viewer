@@ -124,7 +124,7 @@ def read_field_circ( series, iteration, field_name, component_name,
                      max_resolution_3d=None ):
     """
     Extract a given field from a file in the openPMD format,
-    when the geometry is thetaMode
+    when the geometry is thetaMode or cylindrical
 
     Parameters
     ----------
