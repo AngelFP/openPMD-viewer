@@ -213,13 +213,19 @@ def read_field_circ( filename, iteration, field, coord,
         if max_resolution_3d is not None:
             max_res_lon, max_res_transv = max_resolution_3d
             if Nz > max_res_lon:
+                # Calculate excess of elements along z
                 excess_z = int(np.round(Nz/max_res_lon))
+                # Preserve only one every excess_z elements
                 Fcirc = Fcirc[:, :, ::excess_z]
+                # Update info accordingly
                 info.z = info.z[::excess_z]
                 info.dz = info.z[1] - info.z[0]
             if nr > max_res_transv/2:
+                # Calculate excess of elements along r
                 excess_r = int(np.round(nr/(max_res_transv/2)))
+                # Preserve only one every excess_z elements
                 Fcirc = Fcirc[:, ::excess_r, :]
+                # Update info and necessary parameters accordingly
                 info.r = info.r[::excess_r]
                 info.dr = info.r[1] - info.r[0]
                 inv_dr = 1./info.dr
