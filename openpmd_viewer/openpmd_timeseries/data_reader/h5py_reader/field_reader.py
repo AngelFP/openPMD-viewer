@@ -212,9 +212,8 @@ def read_field_circ( filename, iteration, field, coord,
         # If necessary, reduce resolution of 3D reconstruction
         if max_resolution_3d is not None:
             max_res_lon, max_res_transv = max_resolution_3d
-            nz = Fcirc.shape[2]
-            if nz > max_res_lon:
-                excess_z = int(np.round(nz/max_res_lon))
+            if Nz > max_res_lon:
+                excess_z = int(np.round(Nz/max_res_lon))
                 Fcirc = Fcirc[:, :, ::excess_z]
                 info.z = info.z[::excess_z]
                 info.dz = info.z[1] - info.z[0]
