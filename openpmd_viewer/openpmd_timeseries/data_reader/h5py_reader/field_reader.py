@@ -119,7 +119,8 @@ def read_field_cartesian( filename, iteration, field, coord, axis_labels,
 
 
 def read_field_circ( filename, iteration, field, coord,
-                     slice_relative_position, slice_across, m=0, theta=0. ):
+                     slice_relative_position, slice_across, m=0, theta=0.,
+                     max_resolution_3d=None ):
     """
     Extract a given field from an HDF5 file in the openPMD format,
     when the geometry is thetaMode
@@ -207,6 +208,23 @@ def read_field_circ( filename, iteration, field, coord,
             modes = [ m ]
         modes = np.array( modes, dtype='int' )
         nmodes = len(modes)
+
+        # If necessary, reduce resolution for 3D reconstruction
+        if max_resolution_3d is not None:
+            max_res_lon, max_res_transv = max_resolution_3d
+            nz = Fcirc.shape[2]
+            if nz > max_res_lon:
+                excess_z = int(np.round(nz/max_res_lon))
+                Fcirc = Fcirc[:, :, ::excess_z]
+                info.z = info.z[::excess_z]
+                info.dz = info.z[1] - info.z[0]
+            if nr > max_res_transv/2:
+                excess_r = int(np.round(nr/(max_res_transv/2)))
+                Fcirc = Fcirc[:, ::excess_r, :]
+                info.r = info.r[::excess_r]
+                info.dr = info.r[1] - info.r[0]
+                inv_dr = 1./info.dr
+                nr = Fcirc.shape[1]
 
         # Convert cylindrical data to Cartesian data
         info._convert_cylindrical_to_3Dcartesian()
